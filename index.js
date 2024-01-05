@@ -7,8 +7,8 @@ const port = 3000;
 // Middleware to enable CORS
 app.use(cors());
 
-// Middleware to parse JSON in request body
-app.use(bodyParser.json());
+// Middleware to parse JSON in request body with an increased payload size limit (e.g., 10MB)
+app.use(bodyParser.json({ limit: '10mb' }));
 
 // Variable to store the key
 let currentKey = "No Key";

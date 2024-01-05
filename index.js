@@ -21,11 +21,11 @@ app.all('/api/data', (req, res) => {
 
         // Ensure that the received data is a string
         if (typeof requestData.key === 'string') {
-            // Sanitize the input by removing characters that might cause issues
-            const sanitizedKey = requestData.key.replace(/[{}"]/g, '');
+            // Escape special characters
+            const escapedKey = requestData.key.replace(/([{}"])/g, '\\$1');
 
             // Update the key
-            currentKey = sanitizedKey;
+            currentKey = escapedKey;
         } else {
             // Invalid data, respond accordingly
             return res.status(400).send('Invalid request data');

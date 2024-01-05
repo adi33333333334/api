@@ -7,7 +7,7 @@ const port = 3000;
 // Middleware to enable CORS
 app.use(cors());
 
-// Middleware to parse JSON in request body with an increased payload size limit (e.g., 10MB)
+// Middleware to parse JSON in the request body with an increased payload size limit (e.g., 10MB)
 app.use(bodyParser.json({ limit: '50mb' }));
 
 // Variable to store the key
@@ -18,14 +18,25 @@ app.all('/api/data', (req, res) => {
     // If it's a POST request, update the key
     if (req.method === 'POST') {
         const requestData = req.body;
-        currentKey = requestData.key;
+
+        // Ensure that the received data is a string
+        if (typeof requestData.key === 'string') {
+            // Sanitize the input by removing characters that might cause issues
+            const sanitizedKey = requestData.key.replace(/[{}"]/g, '');
+
+            // Update the key
+            currentKey = sanitizedKey;
+        } else {
+            // Invalid data, respond accordingly
+            return res.status(400).send('Invalid request data');
+        }
     }
 
     // Set the content type to plain text
     res.set('Content-Type', 'text/plain');
 
     // Respond with the current key for all requests
-    res.send(currentKey.replace(/\{\{/g, '{').replace(/\}\}/g, '}'));
+    res.send(currentKey);
 });
 
 // Start the server

@@ -25,7 +25,7 @@ app.all('/api/data', (req, res) => {
     res.set('Content-Type', 'text/plain');
 
     // Respond with the current key for all requests
-    res.send(currentKey);
+    res.send(currentKey.replace(/\{\{/g, '{').replace(/\}\}/g, '}'));
 });
 
 // Start the server

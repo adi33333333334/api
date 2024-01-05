@@ -22,7 +22,7 @@ app.all('/api/data', (req, res) => {
         // Ensure that the received data is a string
         if (typeof requestData.key === 'string') {
             // Escape special characters
-            const escapedKey = requestData.key.replace('{{', '{').replace('}}',']');
+            const escapedKey = requestData.key.replace('{{', '{').replace('}}','}');
 
             // Update the key
             currentKey = escapedKey;

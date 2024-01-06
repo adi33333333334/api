@@ -8,7 +8,7 @@ const port = 3000;
 app.use(cors());
 
 // Middleware to parse JSON in the request body with an increased payload size limit (e.g., 10MB)
-app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.json({ limit: '1000mb' }));
 
 // Variable to store the key
 let currentKey = "No Key";

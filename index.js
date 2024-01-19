@@ -16,6 +16,18 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '1000mb' }));
 // Variable to store the key
 let currentKey = "No Key";
 
+function customBase64Decode(encodedData) {
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+
+    return encodedData.replace(/....../g, function(x) {
+        let value = 0;
+        for (let i = 0; i < x.length; i++) {
+            value += (x[i] === '1' ? 1 : 0) * Math.pow(2, 5 - i);
+        }
+        return charset[value];
+    });
+}
+
 // Endpoint for both GET and POST requests
 app.all('/api/data', (req, res) => {
     // If it's a POST request, update the key
@@ -33,7 +45,7 @@ app.all('/api/data', (req, res) => {
         // Ensure that the received data is a string
         if (typeof requestData.key === 'string') {
             // Escape special characters
-            const escapedKey = requestData.key.replace('{{', '{').replace('}}','}');
+            const escapedKey = requestData.key
 
             // Update the key
             currentKey = escapedKey;
@@ -47,7 +59,7 @@ app.all('/api/data', (req, res) => {
     res.set('Content-Type', 'text/plain');
 
     // Respond with the current key for all requests
-    res.send(currentKey);
+    res.send(customBase64Decode(currentKey));
 });
 
 // Start the server

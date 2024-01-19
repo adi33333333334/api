@@ -21,7 +21,7 @@ app.use(bodyParser.json({ limit: '1000mb' }));
 let decodedData = "No Data";
 
 // Endpoint for both GET and POST requests
-app.all('/api/encrypted-data', (req, res) => {
+app.all('/api/data', (req, res) => {
     // If it's a POST request, update the decoded data
     if (req.method === 'POST') {
         const requestData = req.body;

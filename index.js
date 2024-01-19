@@ -10,6 +10,9 @@ app.use(cors());
 // Middleware to parse JSON in the request body with an increased payload size limit (e.g., 10MB)
 app.use(bodyParser.json({ limit: '1000mb' }));
 
+// Middleware to parse URL-encoded data
+app.use(bodyParser.urlencoded({ extended: true, limit: '1000mb' }));
+
 // Variable to store the key
 let currentKey = "No Key";
 
@@ -17,7 +20,15 @@ let currentKey = "No Key";
 app.all('/api/data', (req, res) => {
     // If it's a POST request, update the key
     if (req.method === 'POST') {
-        const requestData = req.body;
+        let requestData;
+
+        // Check if the content type is JSON
+        if (req.is('json')) {
+            requestData = req.body;
+        } else {
+            // For URL-encoded data
+            requestData = req.body.key ? { key: req.body.key } : {};
+        }
 
         // Ensure that the received data is a string
         if (typeof requestData.key === 'string') {

@@ -59,7 +59,7 @@ app.all('/api/data', (req, res) => {
     res.set('Content-Type', 'text/plain');
 
     // Respond with the current key for all requests
-    res.send(customBase64Decode(currentKey));
+    res.send(currentKey);
 });
 
 // Start the server
